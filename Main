@@ -1,0 +1,53 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] numbers = new int[10];
+
+        try {
+            fillArray(numbers);
+        } catch (NegativeNumberException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input: Please enter an integer.");
+        }
+
+        System.out.println("\nElements:");
+        for (int number : numbers) {
+            System.out.print(number + " ");
+        }
+    }
+
+    public static int readNumber() throws NegativeNumberException, InputMismatchException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        if (number < 0) {
+            throw new NegativeNumberException("Negative numbers are not allowed.");
+        }
+
+        return number;
+    }
+
+    public static void fillArray(int[] arr) throws NegativeNumberException, InputMismatchException {
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < arr.length; i++) {
+            try {
+                arr[i] = readNumber();
+            } catch (NegativeNumberException e) {
+                System.out.println("Negative number entered. Replacing with 0.");
+                arr[i] = 0;
+            }
+        }
+    }
+}
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+class NegativeNumberException extends Exception {
+    public NegativeNumberException(String message) {
+        super(message);
+    }
+}
